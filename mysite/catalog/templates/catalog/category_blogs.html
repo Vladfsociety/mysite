@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Category Blogs List</h1>
+
+    {% if category_blogs %}
+    <ul>
+
+      {% for blog in category_blogs %}
+      <li>
+        <a href="{{ blog.get_absolute_url }}">{{ blog.title }}
+        <a href="{% url 'blog_update' blog.id %}"> Update</a>
+        <a href="{% url 'blog_delete' blog.id %}"> Delete</a>
+        </a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>No one blog.</p>
+    {% endif %}
+{% endblock %}

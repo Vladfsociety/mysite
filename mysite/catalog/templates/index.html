@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>My blog home</h1>
+
+<h2>Dynamic content</h2>
+
+  <p>The My Blog has the following record counts:</p>
+  <ul>
+    <li><strong>Blogs:</strong> {{ num_blogs }}</li>
+    <li><strong>Categories:</strong> {{ num_categories }}</li>
+  </ul>
+{% endblock %}
