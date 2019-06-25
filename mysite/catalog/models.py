@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.postgres.fields import ArrayField
 
 
 class Category(models.Model):
@@ -43,3 +44,29 @@ class Blog(models.Model):
         return reverse('blog-detail', args=[str(self.id)])
 
     display_category.short_description = 'Category'
+
+
+class Comment(models.Model):
+    class Meta:
+        db_table = "comments"
+
+    path = ArrayField(models.IntegerField())
+    blog_id = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField('Комментарий')
+    pub_date = models.DateTimeField('Дата комментария', auto_now_add=True)
+
+    def __str__(self):
+        return self.content[0:200]
+
+    def get_offset(self):
+        level = len(self.path) - 1
+        if level > 5:
+            level = 5
+        return level
+
+    def get_col(self):
+        level = len(self.path) - 1
+        if level > 5:
+            level = 5
+        return 12 - level
